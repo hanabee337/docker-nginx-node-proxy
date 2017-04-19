@@ -12,6 +12,10 @@ IMAGE_DEBUG = 'front-debug'
 IMAGE_PRODUCTION = 'front'
 MAINTAINER = 'hanabee337@gmail.com'
 
+DOCKERFILE_BASE = 'Dockerfile.base'
+DOCKERFILE_DEBUG = 'Dockerfile.debug'
+DOCKERFILE_PRODUCTION = 'Dockerfile'
+
 # ArgumentParser
 parser = argparse.ArgumentParser(description='Build command')
 parser.add_argument('-m', '--mode', type=str, default=MODE_DEBUG)
@@ -34,6 +38,7 @@ if args.mode == MODE_BASE:
         base=dockerfile_base,
         extra=''
     )
+    filename = DOCKERFILE_BASE
 elif args.mode == MODE_DEBUG:
     dockerfile = dockerfile_template.format(
         from_image=IMAGE_BASE,
@@ -41,6 +46,7 @@ elif args.mode == MODE_DEBUG:
         base='',
         extra=dockerfile_extra
     )
+    filename = DOCKERFILE_DEBUG
 elif args.mode == MODE_PRODUCTION:
     dockerfile = dockerfile_template.format(
         from_image='ubuntu:16.04',
@@ -48,5 +54,11 @@ elif args.mode == MODE_PRODUCTION:
         base=dockerfile_base,
         extra=dockerfile_extra
     )
+    filename = DOCKERFILE_PRODUCTION
 else:
     sys.exit('Mode invalid')
+
+print(dockerfile)
+
+with open(os.path.join(ROOT_DIR, filename), 'wt') as f:
+    f.write(dockerfile)
