@@ -2,6 +2,7 @@
 # Created by https://www.gitignore.io/api/pycharm,django,python
 
 ### custom ###
+front/
 .conf-secret/
 #_Dockerfile*
 django_app/static/css/
